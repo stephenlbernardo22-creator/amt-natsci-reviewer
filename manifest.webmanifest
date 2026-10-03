@@ -1,13 +1,13 @@
 {
-  "name": "AMT & NatSci Reviewer",
+  "name": "AMT Reviewer — NatSci & Human Performance",
   "short_name": "AMT Reviewer",
-  "description": "Aircraft Maintenance Technology and Natural Science reviewer.",
-  "start_url": "./index.html",
+  "description": "Aircraft Maintenance Technology reviewer for Natural Science and Human Performance.",
+  "start_url": "./",
   "scope": "./",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
-  "orientation": "portrait-primary",
   "icons": [
     {"src":"icons/icon-192.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
     {"src":"icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}

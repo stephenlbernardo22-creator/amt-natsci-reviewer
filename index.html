@@ -3,18 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#0f172a">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="application-name" content="AMT & NatSci Reviewer">
-    <meta name="apple-mobile-web-app-title" content="AMT Reviewer">
-    <meta name="description" content="AMT & NatSci study reviewer with study, exam, bookmarks, history, and 92 questions.">
-    <link rel="manifest" href="manifest.webmanifest">
-    <link rel="apple-touch-icon" href="icons/icon-180.png">
-
-
-    <title>AMT & NatSci Reviewer</title>
+    <title>AMT & NatSci Reviewer (3-Choice Verified PDF Bank)</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
@@ -58,6 +47,12 @@
             background: rgba(255, 255, 255, 0.05);
         }
     </style>
+<link rel="manifest" href="manifest.webmanifest">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icons/icon-180.png">
 </head>
 <body class="bg-slate-900 text-slate-100 min-h-full font-sans transition-colors duration-200 flex flex-col">
 
@@ -70,10 +65,10 @@
                 </div>
                 <div>
                     <h1 class="font-bold text-lg leading-tight tracking-wide flex items-center gap-2">
-                        NATSCI & AMT REVIEWER 
+                        AMT REVIEWER • NATSCI & HUMAN PERFORMANCE 
                         <span class="text-sky-400 font-mono text-[10px] px-2 py-0.5 bg-sky-950 border border-sky-800 rounded-full">3-CHOICE PDF SPEC</span>
                     </h1>
-                    <p class="text-xs text-slate-400">Strictly 3-Option (A, B, C) Exact PDF Dataset</p>
+                    <p class="text-xs text-slate-400">3-CHOICE VERIFIED PDF BANK</p>
                 </div>
             </div>
 
@@ -99,19 +94,19 @@
                     <span class="inline-block px-3 py-1 bg-sky-500/20 text-sky-300 border border-sky-500/30 rounded-full text-xs font-semibold mb-3">
                         <i class="fa-solid fa-check-circle text-emerald-400 mr-1"></i> 100% PDF Choice Alignment (3 Options Only)
                     </span>
-                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Aircraft Maintenance & Natural Science Exam Engine</h2>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Aircraft Maintenance Reviewer</h2>
                     <p class="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed">
-                        Complete reviewer derived directly from <code class="text-sky-300 bg-slate-800/80 px-1.5 py-0.5 rounded font-mono">natsi revi.pdf</code>. Features 3-choice structure [A, B, C] for all questions across Material Science, Aviation Math, Physics, and NatSci Parts 1 & 2.
+                        Two separate reviewer banks in one app: <b>Natural Science</b> and <b>Human Performance</b>. Both use the same 3-choice study/exam engine, with Human Performance questions structured from your HP PDF and one-line study explanations.
                     </p>
                     
                     <div class="mt-6 flex flex-wrap gap-3 text-xs font-medium text-slate-300">
                         <div class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50">
                             <i class="fa-solid fa-layer-group text-sky-400"></i>
-                            <span id="stat-total-q">92 Questions Loaded</span>
+                            <span id="stat-total-q">450 Questions Loaded</span>
                         </div>
                         <div class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50">
                             <i class="fa-solid fa-list-check text-emerald-400"></i>
-                            <span>5 Core PDF Modules</span>
+                            <span>2 Subject Banks</span>
                         </div>
                         <div class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50">
                             <i class="fa-solid fa-chart-line text-purple-400"></i>
@@ -122,23 +117,26 @@
             </div>
 
             <!-- Quiz Configuration Card -->
-            <div class="bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-700/80 grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-700/80 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Subject Selector -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">1. Select Subject</label>
+                    <select id="config-subject" onchange="app.updateTopicOptions()" class="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-xl p-3 font-medium text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+                        <option value="Natural Science">Natural Science Reviewer</option>
+                        <option value="Human Performance">Human Performance Reviewer</option>
+                    </select>
+                    <p class="text-[10px] text-slate-500">Separate question bank and topics.</p>
+                </div>
+
                 <!-- Section Selector -->
                 <div class="space-y-2">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">1. Select PDF Section</label>
-                    <select id="config-topic" class="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-xl p-3 font-medium text-sm focus:ring-2 focus:ring-sky-500 outline-none">
-                        <option value="ALL">All Categories (Complete Question Pool)</option>
-                        <option value="Material Science">Material Science (Questions 1 - 25)</option>
-                        <option value="Mathematics">Mathematics (Questions 25 - 43)</option>
-                        <option value="Basic Physics">Basic Physics (Questions 43 - 52)</option>
-                        <option value="NatSci New Part 1">NatSci New Part 1 (Questions 52 - 73)</option>
-                        <option value="NatSci New Part 2">NatSci New Part 2 (Questions 73 - 92)</option>
-                    </select>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">2. Select Section</label>
+                    <select id="config-topic" class="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-xl p-3 font-medium text-sm focus:ring-2 focus:ring-sky-500 outline-none"></select>
                 </div>
 
                 <!-- Mode Selector -->
                 <div class="space-y-2">
-                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">2. Select Mode</label>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">3. Select Mode</label>
                     <div class="grid grid-cols-2 gap-2">
                         <button type="button" onclick="app.setMode('study')" id="btn-mode-study" class="p-3 border rounded-xl text-left transition flex flex-col justify-between border-sky-500 bg-sky-950/40 text-sky-300">
                             <span class="font-semibold text-xs uppercase flex items-center justify-between">
@@ -161,7 +159,7 @@
                 <!-- Question Count & Start -->
                 <div class="space-y-2 flex flex-col justify-between">
                     <div>
-                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">3. Question Count</label>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">4. Question Count</label>
                         <select id="config-count" class="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-xl p-3 font-medium text-sm focus:ring-2 focus:ring-sky-500 outline-none">
                             <option value="10">10 Questions (Quick Quiz)</option>
                             <option value="25" selected>25 Questions (Standard Practice)</option>
@@ -304,7 +302,7 @@
                 </div>
                 
                 <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-100">Review Session Completed!</h2>
-                <p id="score-subtitle" class="text-sm text-slate-400 mt-1">Summary of performance matching natsi revi.pdf specifications</p>
+                <p id="score-subtitle" class="text-sm text-slate-400 mt-1">Summary of performance for the selected subject and PDF question bank</p>
 
                 <!-- Score Big Display -->
                 <div class="mt-6 inline-flex items-baseline space-x-2 bg-slate-900 border border-slate-700 px-8 py-4 rounded-2xl">
@@ -1155,7 +1153,9 @@
          */
         class QuizApp {
             constructor() {
-                this.allQuestions = [...RAW_PDF_QUESTIONS];
+                this.natSciQuestions = RAW_PDF_QUESTIONS.map(q => ({...q, subject: 'Natural Science'}));
+                this.hpQuestions = Array.isArray(HP_QUESTIONS) ? HP_QUESTIONS : [];
+                this.allQuestions = [...this.natSciQuestions, ...this.hpQuestions];
                 this.activePool = [];
                 this.currentIndex = 0;
                 this.userAnswers = {}; // { questionId: chosenIndex }
@@ -1164,6 +1164,7 @@
                 this.timerInterval = null;
                 this.secondsElapsed = 0;
                 this.history = JSON.parse(localStorage.getItem('natsi_pdf_quiz_history') || '[]');
+                this.currentSubject = 'Natural Science';
 
                 this.init();
             }
@@ -1171,6 +1172,27 @@
             init() {
                 document.getElementById('stat-total-q').innerText = `${this.allQuestions.length} Questions Bank`;
                 this.renderHistory();
+                this.updateTopicOptions();
+            }
+
+            updateTopicOptions() {
+                const subject = document.getElementById('config-subject').value;
+                const topicSelect = document.getElementById('config-topic');
+                const pool = this.allQuestions.filter(q => q.subject === subject);
+                const topics = [...new Set(pool.map(q => q.topic))];
+                topicSelect.innerHTML = '';
+                const all = document.createElement('option');
+                all.value = 'ALL';
+                all.textContent = subject === 'Human Performance' ? 'All Human Performance Questions' : 'All Natural Science Questions';
+                topicSelect.appendChild(all);
+                topics.forEach(topic => {
+                    const opt = document.createElement('option');
+                    opt.value = topic;
+                    opt.textContent = topic;
+                    topicSelect.appendChild(opt);
+                });
+                this.currentSubject = subject;
+                document.getElementById('stat-total-q').innerText = `${pool.length} ${subject} Questions Loaded`;
             }
 
             setMode(mode) {
@@ -1197,13 +1219,15 @@
             }
 
             startQuiz() {
+                const selectedSubject = document.getElementById('config-subject').value;
                 const selectedTopic = document.getElementById('config-topic').value;
                 const selectedCount = document.getElementById('config-count').value;
 
-                // Filter pool by topic
-                let pool = selectedTopic === 'ALL' 
-                    ? [...this.allQuestions] 
-                    : this.allQuestions.filter(q => q.topic === selectedTopic);
+                // Keep Natural Science and Human Performance in separate pools.
+                const subjectPool = this.allQuestions.filter(q => q.subject === selectedSubject);
+                let pool = selectedTopic === 'ALL'
+                    ? [...subjectPool]
+                    : subjectPool.filter(q => q.topic === selectedTopic);
 
                 if (pool.length === 0) {
                     alert('No questions found for selected topic.');
@@ -1229,7 +1253,7 @@
                     this.updateTimerDisplay();
                 }, 1000);
 
-                document.getElementById('quiz-topic-badge').innerText = selectedTopic === 'ALL' ? 'All Sections' : selectedTopic;
+                document.getElementById('quiz-topic-badge').innerText = selectedTopic === 'ALL' ? selectedSubject : selectedTopic;
                 document.getElementById('q-total').innerText = this.activePool.length;
 
                 this.showScreen('quiz');
@@ -1451,6 +1475,7 @@
                     score: percentage,
                     total: total,
                     correct: correctCount,
+                    subject: document.getElementById('config-subject').value,
                     topic: document.getElementById('config-topic').value
                 });
 
@@ -1530,7 +1555,7 @@
                     row.className = "flex items-center justify-between p-3 bg-slate-900 rounded-xl border border-slate-700 text-xs";
                     row.innerHTML = `
                         <div>
-                            <span class="font-bold text-slate-200 block">${item.topic}</span>
+                            <span class="font-bold text-slate-200 block">${item.subject || 'Natural Science'} • ${item.topic}</span>
                             <span class="text-slate-400">${item.date}</span>
                         </div>
                         <div class="text-right">
@@ -1639,14 +1664,10 @@
             app = new QuizApp();
         };
     </script>
-
 <script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js').catch(() => {});
-  });
-}
-</script>
-
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+        }
+    </script>
 </body>
 </html>
