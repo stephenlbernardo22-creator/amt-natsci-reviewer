@@ -1,4 +1,4 @@
-const CACHE_NAME = 'amt-reviewer-v2';
+const CACHE_NAME = 'amt-reviewer-v3';
 const APP_SHELL = [
   './',
   './index.html',
