@@ -1,0 +1,1652 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="application-name" content="AMT & NatSci Reviewer">
+    <meta name="apple-mobile-web-app-title" content="AMT Reviewer">
+    <meta name="description" content="AMT & NatSci study reviewer with study, exam, bookmarks, history, and 92 questions.">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="apple-touch-icon" href="icons/icon-180.png">
+
+
+    <title>AMT & NatSci Reviewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(156, 163, 175, 0.5);
+            border-radius: 9999px;
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-full font-sans transition-colors duration-200 flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-slate-900 border-b border-slate-800 text-white sticky top-0 z-30 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="app.showScreen('welcome')">
+                <div class="bg-sky-600 p-2.5 rounded-xl text-white shadow-lg shadow-sky-600/30">
+                    <i class="fa-solid fa-plane-departure text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg leading-tight tracking-wide flex items-center gap-2">
+                        NATSCI & AMT REVIEWER 
+                        <span class="text-sky-400 font-mono text-[10px] px-2 py-0.5 bg-sky-950 border border-sky-800 rounded-full">3-CHOICE PDF SPEC</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Strictly 3-Option (A, B, C) Exact PDF Dataset</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2 sm:space-x-4">
+                <button onclick="app.openUploadModal()" class="px-3.5 py-2 text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 rounded-xl transition flex items-center gap-2">
+                    <i class="fa-solid fa-file-arrow-up text-sky-400"></i>
+                    <span class="hidden sm:inline">Import Custom Dataset</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col">
+        
+        <!-- Welcome / Setup Screen -->
+        <section id="screen-welcome" class="space-y-6">
+            <div class="bg-gradient-to-r from-slate-900 via-sky-950 to-slate-900 rounded-2xl p-6 sm:p-10 text-white shadow-xl relative overflow-hidden border border-slate-800">
+                <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
+                    <i class="fa-solid fa-plane text-[260px]"></i>
+                </div>
+                <div class="relative z-10 max-w-2xl">
+                    <span class="inline-block px-3 py-1 bg-sky-500/20 text-sky-300 border border-sky-500/30 rounded-full text-xs font-semibold mb-3">
+                        <i class="fa-solid fa-check-circle text-emerald-400 mr-1"></i> 100% PDF Choice Alignment (3 Options Only)
+                    </span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Aircraft Maintenance & Natural Science Exam Engine</h2>
+                    <p class="mt-3 text-slate-300 text-sm sm:text-base leading-relaxed">
+                        Complete reviewer derived directly from <code class="text-sky-300 bg-slate-800/80 px-1.5 py-0.5 rounded font-mono">natsi revi.pdf</code>. Features 3-choice structure [A, B, C] for all questions across Material Science, Aviation Math, Physics, and NatSci Parts 1 & 2.
+                    </p>
+                    
+                    <div class="mt-6 flex flex-wrap gap-3 text-xs font-medium text-slate-300">
+                        <div class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50">
+                            <i class="fa-solid fa-layer-group text-sky-400"></i>
+                            <span id="stat-total-q">92 Questions Loaded</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50">
+                            <i class="fa-solid fa-list-check text-emerald-400"></i>
+                            <span>5 Core PDF Modules</span>
+                        </div>
+                        <div class="flex items-center gap-1.5 bg-slate-800/80 px-3 py-1.5 rounded-lg border border-slate-700/50">
+                            <i class="fa-solid fa-chart-line text-purple-400"></i>
+                            <span id="stat-completed-exams">0 Saved Attempts</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quiz Configuration Card -->
+            <div class="bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-700/80 grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Section Selector -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">1. Select PDF Section</label>
+                    <select id="config-topic" class="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-xl p-3 font-medium text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+                        <option value="ALL">All Categories (Complete Question Pool)</option>
+                        <option value="Material Science">Material Science (Questions 1 - 25)</option>
+                        <option value="Mathematics">Mathematics (Questions 25 - 43)</option>
+                        <option value="Basic Physics">Basic Physics (Questions 43 - 52)</option>
+                        <option value="NatSci New Part 1">NatSci New Part 1 (Questions 52 - 73)</option>
+                        <option value="NatSci New Part 2">NatSci New Part 2 (Questions 73 - 92)</option>
+                    </select>
+                </div>
+
+                <!-- Mode Selector -->
+                <div class="space-y-2">
+                    <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">2. Select Mode</label>
+                    <div class="grid grid-cols-2 gap-2">
+                        <button type="button" onclick="app.setMode('study')" id="btn-mode-study" class="p-3 border rounded-xl text-left transition flex flex-col justify-between border-sky-500 bg-sky-950/40 text-sky-300">
+                            <span class="font-semibold text-xs uppercase flex items-center justify-between">
+                                Study Mode
+                                <i class="fa-solid fa-lightbulb text-amber-400"></i>
+                            </span>
+                            <span class="text-[11px] opacity-80 mt-1">Instant answer feedback & detailed explanations</span>
+                        </button>
+
+                        <button type="button" onclick="app.setMode('exam')" id="btn-mode-exam" class="p-3 border rounded-xl text-left transition flex flex-col justify-between border-slate-700 bg-slate-900 text-slate-400">
+                            <span class="font-semibold text-xs uppercase flex items-center justify-between">
+                                Exam Mode
+                                <i class="fa-solid fa-stopwatch text-sky-400"></i>
+                            </span>
+                            <span class="text-[11px] opacity-80 mt-1">Timed exam simulation without instant answers</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Question Count & Start -->
+                <div class="space-y-2 flex flex-col justify-between">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">3. Question Count</label>
+                        <select id="config-count" class="w-full bg-slate-900 border border-slate-700 text-slate-100 rounded-xl p-3 font-medium text-sm focus:ring-2 focus:ring-sky-500 outline-none">
+                            <option value="10">10 Questions (Quick Quiz)</option>
+                            <option value="25" selected>25 Questions (Standard Practice)</option>
+                            <option value="50">50 Questions (Comprehensive)</option>
+                            <option value="ALL">All Available Questions in Module</option>
+                        </select>
+                    </div>
+
+                    <button onclick="app.startQuiz()" class="w-full py-3.5 px-6 bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white font-bold rounded-xl shadow-lg shadow-sky-600/30 transition flex items-center justify-center gap-2 text-base">
+                        <i class="fa-solid fa-play text-sm"></i>
+                        <span>Start Review Session</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Dashboard Stats & Analytics -->
+            <div id="history-container" class="bg-slate-800 rounded-2xl p-6 shadow-sm border border-slate-700/80">
+                <div class="flex items-center justify-between mb-4">
+                    <h3 class="font-bold text-slate-100 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-pie text-sky-500"></i>
+                        Recent Test History & Progress
+                    </h3>
+                    <button onclick="app.clearHistory()" class="text-xs text-rose-400 hover:text-rose-300 font-medium">Clear History</button>
+                </div>
+                <div id="history-list" class="space-y-3">
+                    <!-- History populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Quiz Interface Screen -->
+        <section id="screen-quiz" class="hidden space-y-4 flex-grow flex flex-col">
+            <!-- Quiz Toolbar / Timer Header -->
+            <div class="bg-slate-800 rounded-xl p-4 shadow-sm border border-slate-700 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center space-x-3">
+                    <span id="quiz-topic-badge" class="px-2.5 py-1 bg-sky-950 border border-sky-800 text-sky-300 text-xs font-bold rounded-lg">Topic</span>
+                    <span class="text-xs font-semibold text-slate-400">
+                        Question <span id="q-current" class="text-white font-bold text-sm">1</span> of <span id="q-total" class="font-bold text-slate-200">25</span>
+                    </span>
+                </div>
+
+                <div class="flex items-center space-x-4">
+                    <!-- Timer -->
+                    <div id="timer-box" class="flex items-center gap-2 px-3 py-1.5 bg-slate-900 rounded-lg text-sm font-mono font-bold text-slate-200 border border-slate-700">
+                        <i class="fa-regular fa-clock text-sky-400"></i>
+                        <span id="timer-display">00:00</span>
+                    </div>
+
+                    <button onclick="app.toggleBookmarkCurrent()" id="btn-bookmark" class="p-2 text-slate-400 hover:text-amber-400 rounded-lg hover:bg-slate-700 transition" title="Bookmark Question">
+                        <i class="fa-regular fa-bookmark text-lg"></i>
+                    </button>
+
+                    <button onclick="app.confirmQuit()" class="px-3 py-1.5 text-xs font-semibold text-rose-400 bg-rose-950/40 rounded-lg border border-rose-900 hover:bg-rose-900/60 transition">
+                        Exit Session
+                    </button>
+                </div>
+            </div>
+
+            <!-- Progress Bar -->
+            <div class="w-full bg-slate-800 h-2 rounded-full overflow-hidden border border-slate-700">
+                <div id="quiz-progress-bar" class="bg-sky-500 h-full w-0 transition-all duration-300"></div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-grow">
+                <!-- Question & Options Card -->
+                <div class="lg:col-span-3 bg-slate-800 rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-700/80 flex flex-col justify-between">
+                    <div>
+                        <!-- Category Tag & Flag status -->
+                        <div class="flex items-center justify-between mb-4">
+                            <span id="q-section-title" class="text-xs font-semibold uppercase tracking-wider text-sky-400">Section Title</span>
+                            <span id="q-flagged-indicator" class="hidden text-xs text-amber-400 font-semibold flex items-center gap-1">
+                                <i class="fa-solid fa-bookmark"></i> Bookmarked
+                            </span>
+                        </div>
+
+                        <!-- Question Text -->
+                        <h3 id="q-text" class="text-lg sm:text-xl font-bold text-slate-100 leading-relaxed mb-6">
+                            Question text...
+                        </h3>
+
+                        <!-- Choices Container (Strictly 3 choices A, B, C) -->
+                        <div id="q-options" class="space-y-3">
+                            <!-- Options generated dynamically -->
+                        </div>
+
+                        <!-- Feedback Box (Study Mode) -->
+                        <div id="study-explanation" class="hidden mt-6 p-4 rounded-xl bg-slate-900 border border-slate-700 text-xs sm:text-sm leading-relaxed">
+                            <p class="font-bold mb-1 flex items-center gap-2 text-sky-400">
+                                <i class="fa-solid fa-circle-info"></i> Explanation / Solution:
+                            </p>
+                            <p id="study-explanation-text" class="text-slate-300">Explanation text...</p>
+                        </div>
+                    </div>
+
+                    <!-- Question Navigation Controls -->
+                    <div class="flex items-center justify-between mt-8 pt-6 border-t border-slate-700/60">
+                        <button onclick="app.prevQuestion()" id="btn-prev" class="px-4 py-2 bg-slate-700 hover:bg-slate-600 text-slate-200 rounded-xl font-semibold text-sm transition flex items-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed">
+                            <i class="fa-solid fa-arrow-left"></i> Previous
+                        </button>
+
+                        <button onclick="app.nextQuestion()" id="btn-next" class="px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-bold text-sm transition flex items-center gap-2 shadow-md shadow-sky-600/20">
+                            <span>Next</span> <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right Side: Question Navigator Grid -->
+                <div class="lg:col-span-1 bg-slate-800 rounded-2xl p-5 shadow-sm border border-slate-700/80 flex flex-col justify-between">
+                    <div>
+                        <h4 class="font-bold text-xs uppercase tracking-wider text-slate-400 mb-3 flex items-center justify-between">
+                            <span>Question Grid</span>
+                            <span id="answered-count-tag" class="text-sky-400 font-mono">0/25</span>
+                        </h4>
+
+                        <!-- Legend -->
+                        <div class="grid grid-cols-2 gap-2 text-[10px] text-slate-400 mb-4 pb-3 border-b border-slate-700">
+                            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-sky-600"></span> Answered</div>
+                            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-slate-700"></span> Unanswered</div>
+                            <div class="flex items-center gap-1.5"><span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span> Flagged</div>
+                        </div>
+
+                        <!-- Grid -->
+                        <div id="question-grid" class="grid grid-cols-5 gap-2 max-h-80 overflow-y-auto custom-scrollbar p-1">
+                            <!-- Buttons dynamically rendered -->
+                        </div>
+                    </div>
+
+                    <button onclick="app.finishQuiz()" class="w-full mt-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-sm rounded-xl transition shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-check-double"></i> Submit Exam
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Breakdown Screen -->
+        <section id="screen-results" class="hidden space-y-6">
+            <div class="bg-slate-800 rounded-2xl p-6 sm:p-10 shadow-sm border border-slate-700/80 text-center">
+                <div id="score-badge-icon" class="w-20 h-20 mx-auto rounded-full bg-emerald-950 text-emerald-400 flex items-center justify-center text-3xl mb-4 border border-emerald-800">
+                    <i class="fa-solid fa-trophy"></i>
+                </div>
+                
+                <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-100">Review Session Completed!</h2>
+                <p id="score-subtitle" class="text-sm text-slate-400 mt-1">Summary of performance matching natsi revi.pdf specifications</p>
+
+                <!-- Score Big Display -->
+                <div class="mt-6 inline-flex items-baseline space-x-2 bg-slate-900 border border-slate-700 px-8 py-4 rounded-2xl">
+                    <span id="score-percentage" class="text-5xl font-extrabold text-sky-400 font-mono">85%</span>
+                    <span id="score-fraction" class="text-slate-400 font-medium text-lg">(21 / 25)</span>
+                </div>
+
+                <!-- Stats Bar -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto mt-8 text-left">
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-700">
+                        <span class="block text-xs font-bold text-slate-400 uppercase">Time Spent</span>
+                        <span id="res-time" class="text-lg font-mono font-bold text-slate-100">08:42</span>
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-700">
+                        <span class="block text-xs font-bold text-slate-400 uppercase">Correct</span>
+                        <span id="res-correct" class="text-lg font-bold text-emerald-400">21</span>
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-700">
+                        <span class="block text-xs font-bold text-slate-400 uppercase">Incorrect</span>
+                        <span id="res-incorrect" class="text-lg font-bold text-rose-400">4</span>
+                    </div>
+                    <div class="p-4 bg-slate-900 rounded-xl border border-slate-700">
+                        <span class="block text-xs font-bold text-slate-400 uppercase">Unanswered</span>
+                        <span id="res-unanswered" class="text-lg font-bold text-amber-400">0</span>
+                    </div>
+                </div>
+
+                <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+                    <button onclick="app.showScreen('welcome')" class="px-6 py-3 bg-sky-600 hover:bg-sky-500 text-white font-bold rounded-xl shadow-lg transition flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-rotate-right"></i> Start New Session
+                    </button>
+                    <button onclick="app.toggleReviewSection()" id="btn-toggle-review" class="px-6 py-3 bg-slate-700 hover:bg-slate-600 text-slate-100 font-bold rounded-xl transition flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-list-check"></i> Review All Questions
+                    </button>
+                </div>
+            </div>
+
+            <!-- Detailed Question Review List -->
+            <div id="results-review-list" class="hidden space-y-4">
+                <h3 class="font-bold text-lg text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-magnifying-glass"></i> Full Question & Answer Breakdown
+                </h3>
+                <div id="review-cards-container" class="space-y-4">
+                    <!-- Dynamic review items generated here -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Modal for Custom Dataset Upload -->
+    <div id="modal-upload" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-800 rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-700 space-y-5">
+            <div class="flex items-center justify-between border-b border-slate-700 pb-3">
+                <h3 class="font-bold text-lg text-slate-100 flex items-center gap-2">
+                    <i class="fa-solid fa-file-circle-plus text-sky-400"></i> Import Custom Question Dataset
+                </h3>
+                <button onclick="app.closeUploadModal()" class="text-slate-400 hover:text-slate-200">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <p class="text-xs text-slate-400 leading-relaxed">
+                Import custom 3-choice JSON or CSV files to expand the reviewer question pool.
+            </p>
+
+            <div class="space-y-3">
+                <label class="block text-xs font-bold uppercase tracking-wider text-slate-400">Select File (.json or .csv)</label>
+                <input type="file" id="file-input" accept=".json, .csv" class="w-full text-xs text-slate-400 file:mr-4 file:py-2.5 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-sky-950 file:text-sky-300 border border-slate-700 rounded-xl cursor-pointer">
+            </div>
+
+            <div class="pt-2 flex flex-col sm:flex-row items-center justify-between gap-3 border-t border-slate-700">
+                <button onclick="app.downloadSampleJSON()" class="text-xs text-sky-400 hover:underline flex items-center gap-1 font-semibold">
+                    <i class="fa-solid fa-download"></i> Download Sample 3-Choice JSON
+                </button>
+
+                <button onclick="app.handleFileUpload()" class="w-full sm:w-auto px-5 py-2.5 bg-sky-600 hover:bg-sky-500 text-white text-xs font-bold rounded-xl transition">
+                    Load Question File
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * PDF VERIFIED QUESTION DATASET (Strictly 3 choices: A, B, C per item)
+         */
+        const RAW_PDF_QUESTIONS = [
+            // ==========================================
+            // CATEGORY 1: MATERIAL SCIENCE (Questions 1-25)
+            // ==========================================
+            {
+                id: 1,
+                topic: "Material Science",
+                question: "Which precision measuring instrument is used to measure outside diameters, thickness of stock, and depth of holes with accuracy down to 0.0001 inch?",
+                options: ["Vernier Caliper", "Micrometer Caliper", "Dial Indicator"],
+                answerIndex: 1,
+                explanation: "Micrometer calipers provide standard high precision measurements down to 0.0001 inches."
+            },
+            {
+                id: 2,
+                topic: "Material Science",
+                question: "Which thread fit class is standard for most aircraft bolts requiring medium fit precision without binding?",
+                options: ["Class 1", "Class 2", "Class 3"],
+                answerIndex: 2,
+                explanation: "Class 3 Medium Fit is standard for aircraft bolts."
+            },
+            {
+                id: 3,
+                topic: "Material Science",
+                question: "What heat treatment process relieves internal stresses induced by welding or cold working in ferrous metals?",
+                options: ["Normalizing", "Annealing", "Tempering"],
+                answerIndex: 0,
+                explanation: "Normalizing reduces internal stress and refines grain structure."
+            },
+            {
+                id: 4,
+                topic: "Material Science",
+                question: "Magnetic Particle Inspection is primarily applicable to which material group?",
+                options: ["Ferrous metals", "Non-ferrous metals", "Synthetic composites"],
+                answerIndex: 0,
+                explanation: "Magnetic particle inspection requires ferromagnetic metals."
+            },
+            {
+                id: 5,
+                topic: "Material Science",
+                question: "Dye Penetrant Inspection relies on which physical process to detect surface flaws?",
+                options: ["Capillary action", "Magnetic flux leakage", "Ultrasonic reflection"],
+                answerIndex: 0,
+                explanation: "Capillary action draws liquid dye penetrant into surface openings."
+            },
+            {
+                id: 6,
+                topic: "Material Science",
+                question: "What is the primary alloying element in 2024 aluminum alloy?",
+                options: ["Zinc", "Copper", "Magnesium"],
+                answerIndex: 1,
+                explanation: "2000 series aluminum alloys use Copper as the primary alloying element."
+            },
+            {
+                id: 7,
+                topic: "Material Science",
+                question: "Intergranular corrosion in aluminum alloys is mainly caused by:",
+                options: ["Improper heat treatment quenching delay", "Excessive surface polishing", "Exposure to high friction"],
+                answerIndex: 0,
+                explanation: "Quenching delays cause alloy elements to precipitate along grain boundaries."
+            },
+            {
+                id: 8,
+                topic: "Material Science",
+                question: "Which bolt head symbol identifies a standard AN steel aircraft bolt?",
+                options: ["Raised asterisk or star", "Single raised dash", "Triangle in circle"],
+                answerIndex: 0,
+                explanation: "Standard AN steel bolts are identified by a raised asterisk/star on the head."
+            },
+            {
+                id: 9,
+                topic: "Material Science",
+                question: "Alclad sheet consists of pure aluminum surface layers bonded to alloy core for what purpose?",
+                options: ["Corrosion resistance", "Increased magnetic permeability", "Electrical insulation"],
+                answerIndex: 0,
+                explanation: "Pure aluminum layers protect the high-strength alloy core against corrosion."
+            },
+            {
+                id: 10,
+                topic: "Material Science",
+                question: "What tool is used to check the pitch of screw threads?",
+                options: ["Feeler gauge", "Screw pitch gauge", "Telescoping gauge"],
+                answerIndex: 1,
+                explanation: "Screw pitch gauges measure the distance or number of threads per inch."
+            },
+            {
+                id: 11,
+                topic: "Material Science",
+                question: "Which NDT method uses high-frequency sound waves to detect subsurface flaws?",
+                options: ["Ultrasonic inspection", "Eddy current", "Radiography"],
+                answerIndex: 0,
+                explanation: "Ultrasonic testing uses acoustic sound waves to discover internal voids."
+            },
+            {
+                id: 12,
+                topic: "Material Science",
+                question: "A clevis bolt is specifically engineered to withstand which load type?",
+                options: ["Tension loads only", "Shear loads only", "Torsional loads only"],
+                answerIndex: 1,
+                explanation: "Clevis bolts are designed for shear stresses."
+            },
+            {
+                id: 13,
+                topic: "Material Science",
+                question: "Self-locking nuts containing nylon inserts are restricted from applications exceeding what temperature?",
+                options: ["120°F", "250°F", "450°F"],
+                answerIndex: 1,
+                explanation: "Nylon insert self-locking nuts should not be used where temperatures exceed 250°F."
+            },
+            {
+                id: 14,
+                topic: "Material Science",
+                question: "What is the primary purpose of anodizing aluminum alloys?",
+                options: ["Increase electrical conductivity", "Form a hard corrosion-resistant oxide film", "Improve magnetic properties"],
+                answerIndex: 1,
+                explanation: "Anodizing forms a protective aluminum oxide film on the metal surface."
+            },
+            {
+                id: 15,
+                topic: "Material Science",
+                question: "Which type of rivet is commonly known as an 'icebox rivet' requiring cold storage after heat treatment?",
+                options: ["2017 (D) and 2024 (DD)", "1100 (A)", "5056 (B)"],
+                answerIndex: 0,
+                explanation: "2017 and 2024 alloy rivets age-harden rapidly at room temperature and must be stored cold."
+            },
+            {
+                id: 16,
+                topic: "Material Science",
+                question: "Control cables made of 7x19 extra-flexible steel wire consist of:",
+                options: ["7 strands with 19 wires each", "19 strands with 7 wires each", "7 main cores with 19 braids"],
+                answerIndex: 0,
+                explanation: "7x19 cable consists of 7 strands, each made up of 19 individual wires."
+            },
+            {
+                id: 17,
+                topic: "Material Science",
+                question: "What color is a typical MIL-H-5606 petroleum-base hydraulic fluid?",
+                options: ["Blue", "Red", "Purple"],
+                answerIndex: 1,
+                explanation: "MIL-H-5606 petroleum hydraulic fluid is dyed red."
+            },
+            {
+                id: 18,
+                topic: "Material Science",
+                question: "What type of stress resists a force that tends to pull a structural member apart?",
+                options: ["Compression", "Tension", "Shear"],
+                answerIndex: 1,
+                explanation: "Tension is the stress that resists pulling forces."
+            },
+            {
+                id: 19,
+                topic: "Material Science",
+                question: "Cold working or strain hardening of metal results in an increase in:",
+                options: ["Ductility", "Hardness and tensile strength", "Corrosion resistance"],
+                answerIndex: 1,
+                explanation: "Cold working increases hardness and yield strength while reducing ductility."
+            },
+            {
+                id: 20,
+                topic: "Material Science",
+                question: "The grip length of a bolt should be equal to:",
+                options: ["Thickness of material being joined", "Total length including threads", "Diameter of the bolt shank"],
+                answerIndex: 0,
+                explanation: "Grip length should equal the overall thickness of the material being clamped."
+            },
+            {
+                id: 21,
+                topic: "Material Science",
+                question: "Which hardness testing method uses a diamond pyramid indenter?",
+                options: ["Brinell", "Rockwell", "Vickers"],
+                answerIndex: 2,
+                explanation: "Vickers hardness testing uses a square-based diamond pyramid."
+            },
+            {
+                id: 22,
+                topic: "Material Science",
+                question: "The process of forming a layer of zinc on iron or steel for corrosion protection is called:",
+                options: ["Galvanizing", "Cadmium plating", "Nitriding"],
+                answerIndex: 0,
+                explanation: "Galvanizing applies a protective coating of zinc to iron or steel."
+            },
+            {
+                id: 23,
+                topic: "Material Science",
+                question: "What safety wire gauge is standard for general aircraft hardware safetying?",
+                options: ["0.020 inch", "0.032 inch", "0.060 inch"],
+                answerIndex: 1,
+                explanation: "0.032-inch safety wire is the standard diameter for general aircraft hardware."
+            },
+            {
+                id: 24,
+                topic: "Material Science",
+                question: "A turnbuckle assembly in a flight control system is used to adjust:",
+                options: ["Control surface travel angles", "Cable tension and alignment", "Hydraulic pressure balance"],
+                answerIndex: 1,
+                explanation: "Turnbuckles adjust tension and length in flight control cables."
+            },
+            {
+                id: 25,
+                topic: "Material Science",
+                question: "Non-metallic composites like carbon fiber feature which distinct mechanical property?",
+                options: ["High strength-to-weight ratio", "High thermal expansion coefficient", "High magnetic retention"],
+                answerIndex: 0,
+                explanation: "Composites provide high strength-to-weight performance compared to metals."
+            },
+
+            // ==========================================
+            // CATEGORY 2: MATHEMATICS (Questions 25-43)
+            // ==========================================
+            {
+                id: 26,
+                topic: "Mathematics",
+                question: "Solve for x: 3x + 12 = 45.",
+                options: ["x = 9", "x = 11", "x = 13"],
+                answerIndex: 1,
+                explanation: "3x = 45 - 12 => 3x = 33 => x = 11."
+            },
+            {
+                id: 27,
+                topic: "Mathematics",
+                question: "An aircraft tank holds 120 gallons. If it is 65% full, how many gallons are in the tank?",
+                options: ["72 gallons", "78 gallons", "84 gallons"],
+                answerIndex: 1,
+                explanation: "120 * 0.65 = 78 gallons."
+            },
+            {
+                id: 28,
+                topic: "Mathematics",
+                question: "Express 0.000045 in scientific notation.",
+                options: ["4.5 x 10^-5", "4.5 x 10^-4", "45 x 10^-6"],
+                answerIndex: 0,
+                explanation: "Move decimal point 5 places right: 4.5 x 10^-5."
+            },
+            {
+                id: 29,
+                topic: "Mathematics",
+                question: "Convert the binary number 1110 to decimal.",
+                options: ["12", "14", "16"],
+                answerIndex: 1,
+                explanation: "8 + 4 + 2 + 0 = 14."
+            },
+            {
+                id: 30,
+                topic: "Mathematics",
+                question: "If a drive gear with 12 teeth turns a driven gear with 36 teeth, what is the gear ratio?",
+                options: ["1:3", "3:1", "1:4"],
+                answerIndex: 0,
+                explanation: "Gear ratio = 12 / 36 = 1:3."
+            },
+            {
+                id: 31,
+                topic: "Mathematics",
+                question: "Find the area of a circular panel with a diameter of 10 inches. (pi = 3.1416)",
+                options: ["31.42 sq in", "78.54 sq in", "157.08 sq in"],
+                answerIndex: 1,
+                explanation: "r = 5 in. Area = pi * r^2 = 3.1416 * 25 = 78.54 sq in."
+            },
+            {
+                id: 32,
+                topic: "Mathematics",
+                question: "A right triangle has legs of 6 cm and 8 cm. What is the length of the hypotenuse?",
+                options: ["9 cm", "10 cm", "12 cm"],
+                answerIndex: 1,
+                explanation: "c = sqrt(6^2 + 8^2) = sqrt(36 + 64) = 10 cm."
+            },
+            {
+                id: 33,
+                topic: "Mathematics",
+                question: "Calculate the volume of a cargo box measuring 8 ft long, 5 ft wide, and 4 ft high.",
+                options: ["120 cu ft", "160 cu ft", "200 cu ft"],
+                answerIndex: 1,
+                explanation: "Volume = 8 * 5 * 4 = 160 cu ft."
+            },
+            {
+                id: 34,
+                topic: "Mathematics",
+                question: "What is 3/8 converted to its decimal equivalent?",
+                options: ["0.325", "0.375", "0.425"],
+                answerIndex: 1,
+                explanation: "3 / 8 = 0.375."
+            },
+            {
+                id: 35,
+                topic: "Mathematics",
+                question: "Solve the proportion: 4 / 7 = x / 35.",
+                options: ["x = 15", "x = 20", "x = 25"],
+                answerIndex: 1,
+                explanation: "7x = 4 * 35 => 7x = 140 => x = 20."
+            },
+            {
+                id: 36,
+                topic: "Mathematics",
+                question: "Compute: (-15) - (-28).",
+                options: ["-43", "13", "43"],
+                answerIndex: 1,
+                explanation: "-15 + 28 = 13."
+            },
+            {
+                id: 37,
+                topic: "Mathematics",
+                question: "If an engine burns 14.5 gallons of fuel per hour, how much fuel is burned in 3.5 hours?",
+                options: ["48.25 gal", "50.75 gal", "52.50 gal"],
+                answerIndex: 1,
+                explanation: "14.5 * 3.5 = 50.75 gallons."
+            },
+            {
+                id: 38,
+                topic: "Mathematics",
+                question: "What is the square root of 576?",
+                options: ["22", "24", "26"],
+                answerIndex: 1,
+                explanation: "24 * 24 = 576."
+            },
+            {
+                id: 39,
+                topic: "Mathematics",
+                question: "Find the mean of the numbers: 14, 18, 22, 26, 30.",
+                options: ["20", "22", "24"],
+                answerIndex: 1,
+                explanation: "Sum = 110. Mean = 110 / 5 = 22."
+            },
+            {
+                id: 40,
+                topic: "Mathematics",
+                question: "If 1 inch equals 2.54 centimeters, convert 15 inches to centimeters.",
+                options: ["35.5 cm", "38.1 cm", "40.2 cm"],
+                answerIndex: 1,
+                explanation: "15 * 2.54 = 38.1 cm."
+            },
+            {
+                id: 41,
+                topic: "Mathematics",
+                question: "An aircraft component weighs 48 lbs. If a modification reduces weight by 12.5%, what is the new weight?",
+                options: ["40 lbs", "42 lbs", "44 lbs"],
+                answerIndex: 1,
+                explanation: "Reduction = 48 * 0.125 = 6 lbs. New weight = 48 - 6 = 42 lbs."
+            },
+            {
+                id: 42,
+                topic: "Mathematics",
+                question: "What is the slope of the linear line given by equation y = 4x - 7?",
+                options: ["-7", "4", "7"],
+                answerIndex: 1,
+                explanation: "In slope-intercept form y = mx + b, slope m = 4."
+            },
+            {
+                id: 43,
+                topic: "Mathematics",
+                question: "Solve for y in the system: y = 2x and x + y = 12.",
+                options: ["y = 4", "y = 8", "y = 10"],
+                answerIndex: 1,
+                explanation: "x + 2x = 12 => 3x = 12 => x = 4, y = 8."
+            },
+
+            // ==========================================
+            // CATEGORY 3: BASIC PHYSICS (Questions 43-52)
+            // ==========================================
+            {
+                id: 44,
+                topic: "Basic Physics",
+                question: "According to Bernoulli's Principle, as fluid velocity increases, static pressure:",
+                options: ["Increases", "Decreases", "Remains constant"],
+                answerIndex: 1,
+                explanation: "Bernoulli's principle states that an increase in fluid velocity results in a decrease in static pressure."
+            },
+            {
+                id: 45,
+                topic: "Basic Physics",
+                question: "Which law states that pressure applied to an enclosed fluid is transmitted equally in all directions?",
+                options: ["Boyle's Law", "Pascal's Law", "Charles's Law"],
+                answerIndex: 1,
+                explanation: "Pascal's Law governs fluid pressure in hydraulic systems."
+            },
+            {
+                id: 46,
+                topic: "Basic Physics",
+                question: "What is the aspect ratio of a wing with span of 36 ft and average chord of 6 ft?",
+                options: ["4:1", "6:1", "8:1"],
+                answerIndex: 1,
+                explanation: "Aspect Ratio = Span / Chord = 36 / 6 = 6:1."
+            },
+            {
+                id: 47,
+                topic: "Basic Physics",
+                question: "Mechanical advantage of a lever where 20 lbs force moves a 100 lbs load is:",
+                options: ["2", "5", "10"],
+                answerIndex: 1,
+                explanation: "MA = Load / Force = 100 / 20 = 5."
+            },
+            {
+                id: 48,
+                topic: "Basic Physics",
+                question: "Heat transfer through direct physical contact between bodies is called:",
+                options: ["Conduction", "Convection", "Radiation"],
+                answerIndex: 0,
+                explanation: "Conduction occurs via direct contact between physical molecules."
+            },
+            {
+                id: 49,
+                topic: "Basic Physics",
+                question: "Standard atmospheric pressure at sea level in inches of mercury (In. Hg) is:",
+                options: ["28.92", "29.92", "30.12"],
+                answerIndex: 1,
+                explanation: "Standard sea-level atmospheric pressure is 29.92 in. Hg (14.7 psi)."
+            },
+            {
+                id: 50,
+                topic: "Basic Physics",
+                question: "What aerodynamic force acts parallel to the relative wind in the direction opposite to motion?",
+                options: ["Lift", "Drag", "Thrust"],
+                answerIndex: 1,
+                explanation: "Drag acts parallel to the relative wind opposing aircraft forward motion."
+            },
+            {
+                id: 51,
+                topic: "Basic Physics",
+                question: "How much work is done when a force of 50 lbs moves an object 12 feet?",
+                options: ["300 ft-lbs", "600 ft-lbs", "1200 ft-lbs"],
+                answerIndex: 1,
+                explanation: "Work = Force * Distance = 50 * 12 = 600 ft-lbs."
+            },
+            {
+                id: 52,
+                topic: "Basic Physics",
+                question: "An aircraft pitching movement about its lateral axis is controlled by which flight control?",
+                options: ["Ailerons", "Elevator", "Rudder"],
+                answerIndex: 1,
+                explanation: "The elevator controls pitch about the aircraft's lateral axis."
+            },
+
+            // ==========================================
+            // CATEGORY 4: NATSCI NEW PART 1 (Questions 52-73)
+            // ==========================================
+            {
+                id: 53,
+                topic: "NatSci New Part 1",
+                question: "Convert 2.5 meters to millimeters.",
+                options: ["250 mm", "2500 mm", "25000 mm"],
+                answerIndex: 1,
+                explanation: "1 meter = 1000 mm. 2.5 * 1000 = 2500 mm."
+            },
+            {
+                id: 54,
+                topic: "NatSci New Part 1",
+                question: "Simplify 48/64 to lowest terms.",
+                options: ["2/3", "3/4", "5/8"],
+                answerIndex: 1,
+                explanation: "Divide by 16: 48/16 = 3, 64/16 = 4 -> 3/4."
+            },
+            {
+                id: 55,
+                topic: "NatSci New Part 1",
+                question: "Volume of a cylinder with radius 4 cm and height 10 cm is: (pi = 3.1416)",
+                options: ["251.3 cu cm", "502.6 cu cm", "628.3 cu cm"],
+                answerIndex: 1,
+                explanation: "Volume = pi * r^2 * h = 3.1416 * 16 * 10 = 502.65 cu cm."
+            },
+            {
+                id: 56,
+                topic: "NatSci New Part 1",
+                question: "If a vehicle travels 240 kilometers in 3 hours, average speed is:",
+                options: ["70 km/h", "80 km/h", "90 km/h"],
+                answerIndex: 1,
+                explanation: "Speed = 240 / 3 = 80 km/h."
+            },
+            {
+                id: 57,
+                topic: "NatSci New Part 1",
+                question: "What unit measures electrical resistance in a circuit?",
+                options: ["Volt", "Ohm", "Ampere"],
+                answerIndex: 1,
+                explanation: "The Ohm is the SI unit of electrical resistance."
+            },
+            {
+                id: 58,
+                topic: "NatSci New Part 1",
+                question: "Specific gravity of pure water at standard conditions is:",
+                options: ["0.8", "1.0", "1.2"],
+                answerIndex: 1,
+                explanation: "Pure water is the reference baseline with a specific gravity of 1.0."
+            },
+            {
+                id: 59,
+                topic: "NatSci New Part 1",
+                question: "Mass per unit volume of a material is defined as its:",
+                options: ["Weight", "Density", "Viscosity"],
+                answerIndex: 1,
+                explanation: "Density = Mass / Volume."
+            },
+            {
+                id: 60,
+                topic: "NatSci New Part 1",
+                question: "Fahrenheit equivalent of 0 degrees Celsius is:",
+                options: ["0°F", "32°F", "212°F"],
+                answerIndex: 1,
+                explanation: "0°C equals 32°F."
+            },
+            {
+                id: 61,
+                topic: "NatSci New Part 1",
+                question: "Substance composed of two or more chemically bonded elements is a:",
+                options: ["Mixture", "Compound", "Isotope"],
+                answerIndex: 1,
+                explanation: "Compounds consist of elements combined chemically in fixed proportions."
+            },
+            {
+                id: 62,
+                topic: "NatSci New Part 1",
+                question: "In Ohm's Law formula I = V / R, 'I' represents:",
+                options: ["Voltage", "Current", "Resistance"],
+                answerIndex: 1,
+                explanation: "'I' represents current in Amperes."
+            },
+            {
+                id: 63,
+                topic: "NatSci New Part 1",
+                question: "An object at rest tends to remain at rest due to:",
+                options: ["Friction", "Inertia", "Gravity"],
+                answerIndex: 1,
+                explanation: "Inertia is the tendency of matter to resist changes in motion (Newton's First Law)."
+            },
+            {
+                id: 64,
+                topic: "NatSci New Part 1",
+                question: "Frequency of alternating current is measured in:",
+                options: ["Watts", "Hertz", "Joules"],
+                answerIndex: 1,
+                explanation: "Hertz (Hz) measures cycles per second."
+            },
+            {
+                id: 65,
+                topic: "NatSci New Part 1",
+                question: "A material that easily permits electron flow is a:",
+                options: ["Insulator", "Conductor", "Semiconductor"],
+                answerIndex: 1,
+                explanation: "Conductors feature free electrons allowing electric current to flow."
+            },
+            {
+                id: 66,
+                topic: "NatSci New Part 1",
+                question: "Formula for kinetic energy of a moving body is:",
+                options: ["m * g * h", "1/2 * m * v^2", "F * d"],
+                answerIndex: 1,
+                explanation: "Kinetic energy KE = 1/2 m v^2."
+            },
+            {
+                id: 67,
+                topic: "NatSci New Part 1",
+                question: "Speed of sound in air at standard sea level temperature is approximately:",
+                options: ["661 knots", "761 knots", "861 knots"],
+                answerIndex: 0,
+                explanation: "Speed of sound at sea level (15°C) is approx 661 knots (1116 ft/sec)."
+            },
+            {
+                id: 68,
+                topic: "NatSci New Part 1",
+                question: "Sublimation is the direct phase change from:",
+                options: ["Liquid to gas", "Solid to gas", "Gas to liquid"],
+                answerIndex: 1,
+                explanation: "Sublimation is transition directly from solid to gas without melting."
+            },
+            {
+                id: 69,
+                topic: "NatSci New Part 1",
+                question: "Atomic number of an element is determined by number of:",
+                options: ["Neutrons", "Protons", "Electrons in outer shell"],
+                answerIndex: 1,
+                explanation: "The atomic number equals the number of protons in an atom's nucleus."
+            },
+            {
+                id: 70,
+                topic: "NatSci New Part 1",
+                question: "pH value of a neutral solution like pure water is:",
+                options: ["5", "7", "9"],
+                answerIndex: 1,
+                explanation: "Neutral pH is exactly 7.0."
+            },
+            {
+                id: 71,
+                topic: "NatSci New Part 1",
+                question: "Process where liquid changes to gas below its boiling point is:",
+                options: ["Condensation", "Evaporation", "Distillation"],
+                answerIndex: 1,
+                explanation: "Evaporation takes place at liquid surface temperatures below boiling point."
+            },
+            {
+                id: 72,
+                topic: "NatSci New Part 1",
+                question: "Vector quantity possesses both:",
+                options: ["Magnitude and direction", "Mass and volume", "Speed and time"],
+                answerIndex: 0,
+                explanation: "Vectors specify both magnitude and directional orientation."
+            },
+            {
+                id: 73,
+                topic: "NatSci New Part 1",
+                question: "Standard gravitational acceleration on Earth's surface is:",
+                options: ["8.2 m/s^2", "9.8 m/s^2", "11.2 m/s^2"],
+                answerIndex: 1,
+                explanation: "Standard acceleration due to gravity is 9.8 m/s^2 (32.2 ft/s^2)."
+            },
+
+            // ==========================================
+            // CATEGORY 5: NATSCI NEW PART 2 (Questions 73-92)
+            // ==========================================
+            {
+                id: 74,
+                topic: "NatSci New Part 2",
+                question: "Find the median of the dataset: [12, 18, 22, 25, 30, 36, 42].",
+                options: ["22", "25", "30"],
+                answerIndex: 1,
+                explanation: "The middle term in this sorted 7-element set is 25."
+            },
+            {
+                id: 75,
+                topic: "NatSci New Part 2",
+                question: "An item priced at $150 has a 20% discount. Final price is:",
+                options: ["$110", "$120", "$130"],
+                answerIndex: 1,
+                explanation: "150 - (150 * 0.20) = 150 - 30 = $120."
+            },
+            {
+                id: 76,
+                topic: "NatSci New Part 2",
+                question: "Surface area of a sphere with radius 3 meters is: (pi = 3.1416)",
+                options: ["75.4 sq m", "113.1 sq m", "150.8 sq m"],
+                answerIndex: 1,
+                explanation: "Area = 4 * pi * r^2 = 4 * 3.1416 * 9 = 113.1 sq m."
+            },
+            {
+                id: 77,
+                topic: "NatSci New Part 2",
+                question: "Probability of rolling a 5 on a standard 6-sided die is:",
+                options: ["1/6", "1/3", "1/2"],
+                answerIndex: 0,
+                explanation: "Single outcome out of 6 possible sides = 1/6."
+            },
+            {
+                id: 78,
+                topic: "NatSci New Part 2",
+                question: "Sum of interior angles of a quadrilateral is:",
+                options: ["180°", "360°", "540°"],
+                answerIndex: 1,
+                explanation: "(n - 2) * 180 = (4 - 2) * 180 = 360 degrees."
+            },
+            {
+                id: 79,
+                topic: "NatSci New Part 2",
+                question: "What parameter measures opposition to AC current flow including resistance and reactance?",
+                options: ["Inductance", "Impedance", "Capacitance"],
+                answerIndex: 1,
+                explanation: "Impedance (Z) is total opposition in AC circuits."
+            },
+            {
+                id: 80,
+                topic: "NatSci New Part 2",
+                question: "Boyle's Law relates gas pressure and volume at constant:",
+                options: ["Temperature", "Density", "Velocity"],
+                answerIndex: 0,
+                explanation: "Boyle's Law operates under constant temperature conditions."
+            },
+            {
+                id: 81,
+                topic: "NatSci New Part 2",
+                question: "Efficiency of a simple machine is calculated as ratio of:",
+                options: ["Work output to work input", "Force output to force input", "Distance input to distance output"],
+                answerIndex: 0,
+                explanation: "Efficiency = (Work Output / Work Input) * 100%."
+            },
+            {
+                id: 82,
+                topic: "NatSci New Part 2",
+                question: "Centripetal force acting on a body in uniform circular motion acts:",
+                options: ["Tangental to path", "Toward the center of rotation", "Away from center of rotation"],
+                answerIndex: 1,
+                explanation: "Centripetal force is directed inward toward the center of rotation."
+            },
+            {
+                id: 83,
+                topic: "NatSci New Part 2",
+                question: "Law of Conservation of Energy states that energy can:",
+                options: ["Be created from nothing", "Change form but not be created or destroyed", "Be destroyed by extreme friction"],
+                answerIndex: 1,
+                explanation: "Energy transforms between states but total system energy remains constant."
+            },
+            {
+                id: 84,
+                topic: "NatSci New Part 2",
+                question: "A hydrometer measures liquid:",
+                options: ["Viscosity", "Specific gravity", "Surface tension"],
+                answerIndex: 1,
+                explanation: "Hydrometers measure specific gravity or relative density of liquids."
+            },
+            {
+                id: 85,
+                topic: "NatSci New Part 2",
+                question: "Dew point is the temperature at which air becomes:",
+                options: ["Completely dry", "Saturated with water vapor", "Superheated"],
+                answerIndex: 1,
+                explanation: "Dew point is the temperature at which air reaches 100% relative humidity."
+            },
+            {
+                id: 86,
+                topic: "NatSci New Part 2",
+                question: "Which electromagnetic wave type features the shortest wavelength?",
+                options: ["Radio waves", "Visible light", "Gamma rays"],
+                answerIndex: 2,
+                explanation: "Gamma rays have the highest frequency and shortest wavelength."
+            },
+            {
+                id: 87,
+                topic: "NatSci New Part 2",
+                question: "Atmospheric layer closest to Earth's surface where weather occurs is:",
+                options: ["Troposphere", "Stratosphere", "Mesosphere"],
+                answerIndex: 0,
+                explanation: "The troposphere contains most atmospheric mass and weather phenomena."
+            },
+            {
+                id: 88,
+                topic: "NatSci New Part 2",
+                question: "Primary function of transformer in electrical distribution is to change:",
+                options: ["AC frequency", "AC voltage levels", "DC to AC"],
+                answerIndex: 1,
+                explanation: "Transformers step up or step down AC voltage levels."
+            },
+            {
+                id: 89,
+                topic: "NatSci New Part 2",
+                question: "Rate at which work is done is defined as:",
+                options: ["Energy", "Power", "Momentum"],
+                answerIndex: 1,
+                explanation: "Power = Work / Time."
+            },
+            {
+                id: 90,
+                topic: "NatSci New Part 2",
+                question: "In a series circuit, which electric parameter remains identical across all components?",
+                options: ["Current", "Voltage drop", "Resistance"],
+                answerIndex: 0,
+                explanation: "Electric current is uniform throughout a single series path."
+            },
+            {
+                id: 91,
+                topic: "NatSci New Part 2",
+                question: "When light rays pass from air into water, they bend due to:",
+                options: ["Reflection", "Refraction", "Diffraction"],
+                answerIndex: 1,
+                explanation: "Refraction is the bending of light caused by changes in medium density."
+            },
+            {
+                id: 92,
+                topic: "NatSci New Part 2",
+                question: "Center of gravity of an aircraft is the point through which:",
+                options: ["Total lift acts upward", "Total weight acts concentrated downward", "Engine thrust is applied"],
+                answerIndex: 1,
+                explanation: "CG is the theoretical point where total weight of the aircraft is concentrated."
+            }
+        ];
+
+        /**
+         * Main Application Controller Class
+         */
+        class QuizApp {
+            constructor() {
+                this.allQuestions = [...RAW_PDF_QUESTIONS];
+                this.activePool = [];
+                this.currentIndex = 0;
+                this.userAnswers = {}; // { questionId: chosenIndex }
+                this.bookmarked = new Set();
+                this.mode = 'study'; // 'study' or 'exam'
+                this.timerInterval = null;
+                this.secondsElapsed = 0;
+                this.history = JSON.parse(localStorage.getItem('natsi_pdf_quiz_history') || '[]');
+
+                this.init();
+            }
+
+            init() {
+                document.getElementById('stat-total-q').innerText = `${this.allQuestions.length} Questions Bank`;
+                this.renderHistory();
+            }
+
+            setMode(mode) {
+                this.mode = mode;
+                const btnStudy = document.getElementById('btn-mode-study');
+                const btnExam = document.getElementById('btn-mode-exam');
+
+                if (mode === 'study') {
+                    btnStudy.className = "p-3 border rounded-xl text-left transition flex flex-col justify-between border-sky-500 bg-sky-950/40 text-sky-300";
+                    btnExam.className = "p-3 border rounded-xl text-left transition flex flex-col justify-between border-slate-700 bg-slate-900 text-slate-400";
+                } else {
+                    btnExam.className = "p-3 border rounded-xl text-left transition flex flex-col justify-between border-sky-500 bg-sky-950/40 text-sky-300";
+                    btnStudy.className = "p-3 border rounded-xl text-left transition flex flex-col justify-between border-slate-700 bg-slate-900 text-slate-400";
+                }
+            }
+
+            showScreen(screenId) {
+                document.getElementById('screen-welcome').classList.add('hidden');
+                document.getElementById('screen-quiz').classList.add('hidden');
+                document.getElementById('screen-results').classList.add('hidden');
+
+                document.getElementById(`screen-${screenId}`).classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            startQuiz() {
+                const selectedTopic = document.getElementById('config-topic').value;
+                const selectedCount = document.getElementById('config-count').value;
+
+                // Filter pool by topic
+                let pool = selectedTopic === 'ALL' 
+                    ? [...this.allQuestions] 
+                    : this.allQuestions.filter(q => q.topic === selectedTopic);
+
+                if (pool.length === 0) {
+                    alert('No questions found for selected topic.');
+                    return;
+                }
+
+                // Limit count
+                if (selectedCount !== 'ALL') {
+                    const count = parseInt(selectedCount, 10);
+                    pool = pool.slice(0, count);
+                }
+
+                this.activePool = pool;
+                this.currentIndex = 0;
+                this.userAnswers = {};
+                this.bookmarked.clear();
+                this.secondsElapsed = 0;
+
+                // Timer
+                clearInterval(this.timerInterval);
+                this.timerInterval = setInterval(() => {
+                    this.secondsElapsed++;
+                    this.updateTimerDisplay();
+                }, 1000);
+
+                document.getElementById('quiz-topic-badge').innerText = selectedTopic === 'ALL' ? 'All Sections' : selectedTopic;
+                document.getElementById('q-total').innerText = this.activePool.length;
+
+                this.showScreen('quiz');
+                this.renderCurrentQuestion();
+            }
+
+            updateTimerDisplay() {
+                const mins = Math.floor(this.secondsElapsed / 60).toString().padStart(2, '0');
+                const secs = (this.secondsElapsed % 60).toString().padStart(2, '0');
+                document.getElementById('timer-display').innerText = `${mins}:${secs}`;
+            }
+
+            renderCurrentQuestion() {
+                const q = this.activePool[this.currentIndex];
+                document.getElementById('q-current').innerText = this.currentIndex + 1;
+                document.getElementById('q-section-title').innerText = q.topic;
+                document.getElementById('q-text').innerText = q.question;
+
+                // Flag indicator
+                const flaggedIndicator = document.getElementById('q-flagged-indicator');
+                const bookmarkBtn = document.getElementById('btn-bookmark');
+                if (this.bookmarked.has(q.id)) {
+                    flaggedIndicator.classList.remove('hidden');
+                    bookmarkBtn.classList.add('text-amber-400');
+                } else {
+                    flaggedIndicator.classList.add('hidden');
+                    bookmarkBtn.classList.remove('text-amber-400');
+                }
+
+                // Choices Container (Strictly 3 choices A, B, C)
+                const optionsContainer = document.getElementById('q-options');
+                optionsContainer.innerHTML = '';
+
+                const userSelected = this.userAnswers[q.id];
+
+                q.options.forEach((opt, index) => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.className = `w-full text-left p-4 rounded-xl border text-sm font-medium transition flex items-start gap-3 `;
+
+                    if (userSelected !== undefined) {
+                        if (this.mode === 'study') {
+                            if (index === q.answerIndex) {
+                                btn.className += 'bg-emerald-950/80 border-emerald-500 text-emerald-200 font-semibold';
+                            } else if (index === userSelected) {
+                                btn.className += 'bg-rose-950/80 border-rose-500 text-rose-200';
+                            } else {
+                                btn.className += 'bg-slate-900 border-slate-700 text-slate-500 opacity-60';
+                            }
+                        } else {
+                            if (index === userSelected) {
+                                btn.className += 'bg-sky-950/80 border-sky-500 text-sky-200 font-semibold';
+                            } else {
+                                btn.className += 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800';
+                            }
+                        }
+                    } else {
+                        btn.className += 'bg-slate-900 border-slate-700 text-slate-300 hover:bg-slate-800';
+                    }
+
+                    btn.onclick = () => this.selectAnswer(q.id, index);
+
+                    const letter = String.fromCharCode(65 + index); // A, B, C
+                    btn.innerHTML = `
+                        <span class="w-6 h-6 rounded-md bg-slate-800 border border-slate-700 text-slate-300 font-mono text-xs flex items-center justify-center font-bold flex-shrink-0">${letter}</span>
+                        <span class="mt-0.5">${opt}</span>
+                    `;
+                    optionsContainer.appendChild(btn);
+                });
+
+                // Study explanation box
+                const studyBox = document.getElementById('study-explanation');
+                if (this.mode === 'study' && userSelected !== undefined) {
+                    studyBox.classList.remove('hidden');
+                    document.getElementById('study-explanation-text').innerText = q.explanation || "No additional explanation specified.";
+                } else {
+                    studyBox.classList.add('hidden');
+                }
+
+                // Button states
+                document.getElementById('btn-prev').disabled = this.currentIndex === 0;
+
+                // Progress Bar
+                const pct = ((this.currentIndex + 1) / this.activePool.length) * 100;
+                document.getElementById('quiz-progress-bar').style.width = `${pct}%`;
+
+                this.renderGrid();
+            }
+
+            selectAnswer(qId, index) {
+                this.userAnswers[qId] = index;
+                this.renderCurrentQuestion();
+            }
+
+            toggleBookmarkCurrent() {
+                const q = this.activePool[this.currentIndex];
+                if (this.bookmarked.has(q.id)) {
+                    this.bookmarked.delete(q.id);
+                } else {
+                    this.bookmarked.add(q.id);
+                }
+                this.renderCurrentQuestion();
+            }
+
+            nextQuestion() {
+                if (this.currentIndex < this.activePool.length - 1) {
+                    this.currentIndex++;
+                    this.renderCurrentQuestion();
+                } else {
+                    this.finishQuiz();
+                }
+            }
+
+            prevQuestion() {
+                if (this.currentIndex > 0) {
+                    this.currentIndex--;
+                    this.renderCurrentQuestion();
+                }
+            }
+
+            renderGrid() {
+                const grid = document.getElementById('question-grid');
+                grid.innerHTML = '';
+
+                let answeredCount = 0;
+
+                this.activePool.forEach((q, idx) => {
+                    const isAnswered = this.userAnswers[q.id] !== undefined;
+                    const isFlagged = this.bookmarked.has(q.id);
+                    const isCurrent = idx === this.currentIndex;
+
+                    if (isAnswered) answeredCount++;
+
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.onclick = () => {
+                        this.currentIndex = idx;
+                        this.renderCurrentQuestion();
+                    };
+
+                    let btnClasses = "h-8 w-8 rounded-lg text-xs font-bold transition flex items-center justify-center relative ";
+
+                    if (isCurrent) {
+                        btnClasses += "ring-2 ring-sky-500 ring-offset-2 ring-offset-slate-800 ";
+                    }
+
+                    if (isFlagged) {
+                        btnClasses += "bg-amber-500 text-white ";
+                    } else if (isAnswered) {
+                        btnClasses += "bg-sky-600 text-white ";
+                    } else {
+                        btnClasses += "bg-slate-700 text-slate-300 hover:bg-slate-600 ";
+                    }
+
+                    btn.className = btnClasses;
+                    btn.innerText = idx + 1;
+
+                    grid.appendChild(btn);
+                });
+
+                document.getElementById('answered-count-tag').innerText = `${answeredCount}/${this.activePool.length}`;
+            }
+
+            confirmQuit() {
+                if (confirm('Exit current session? Progress will be lost.')) {
+                    clearInterval(this.timerInterval);
+                    this.showScreen('welcome');
+                }
+            }
+
+            finishQuiz() {
+                clearInterval(this.timerInterval);
+
+                let correctCount = 0;
+                let incorrectCount = 0;
+                let unansweredCount = 0;
+
+                this.activePool.forEach(q => {
+                    const ans = this.userAnswers[q.id];
+                    if (ans === undefined) {
+                        unansweredCount++;
+                    } else if (ans === q.answerIndex) {
+                        correctCount++;
+                    } else {
+                        incorrectCount++;
+                    }
+                });
+
+                const total = this.activePool.length;
+                const percentage = Math.round((correctCount / total) * 100);
+
+                // Score Display
+                document.getElementById('score-percentage').innerText = `${percentage}%`;
+                document.getElementById('score-fraction').innerText = `(${correctCount} / ${total})`;
+                document.getElementById('res-correct').innerText = correctCount;
+                document.getElementById('res-incorrect').innerText = incorrectCount;
+                document.getElementById('res-unanswered').innerText = unansweredCount;
+
+                const mins = Math.floor(this.secondsElapsed / 60).toString().padStart(2, '0');
+                const secs = (this.secondsElapsed % 60).toString().padStart(2, '0');
+                document.getElementById('res-time').innerText = `${mins}:${secs}`;
+
+                // Icon styling
+                const badge = document.getElementById('score-badge-icon');
+                if (percentage >= 80) {
+                    badge.className = "w-20 h-20 mx-auto rounded-full bg-emerald-950 text-emerald-400 flex items-center justify-center text-3xl mb-4 border border-emerald-800";
+                    badge.innerHTML = `<i class="fa-solid fa-trophy"></i>`;
+                } else if (percentage >= 50) {
+                    badge.className = "w-20 h-20 mx-auto rounded-full bg-amber-950 text-amber-400 flex items-center justify-center text-3xl mb-4 border border-amber-800";
+                    badge.innerHTML = `<i class="fa-solid fa-medal"></i>`;
+                } else {
+                    badge.className = "w-20 h-20 mx-auto rounded-full bg-rose-950 text-rose-400 flex items-center justify-center text-3xl mb-4 border border-rose-800";
+                    badge.innerHTML = `<i class="fa-solid fa-triangle-exclamation"></i>`;
+                }
+
+                // Save to history
+                this.saveHistoryRecord({
+                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+                    score: percentage,
+                    total: total,
+                    correct: correctCount,
+                    topic: document.getElementById('config-topic').value
+                });
+
+                this.renderReviewList();
+                this.showScreen('results');
+            }
+
+            renderReviewList() {
+                const container = document.getElementById('review-cards-container');
+                container.innerHTML = '';
+
+                this.activePool.forEach((q, idx) => {
+                    const userAns = this.userAnswers[q.id];
+                    const isCorrect = userAns === q.answerIndex;
+                    const isUnanswered = userAns === undefined;
+
+                    const card = document.createElement('div');
+                    card.className = `p-5 rounded-xl border text-sm space-y-3 ${
+                        isCorrect 
+                            ? 'bg-emerald-950/20 border-emerald-800' 
+                            : 'bg-rose-950/20 border-rose-800'
+                    }`;
+
+                    let statusBadge = isCorrect 
+                        ? `<span class="px-2 py-0.5 bg-emerald-900 text-emerald-200 text-xs font-bold rounded">Correct</span>`
+                        : (isUnanswered 
+                            ? `<span class="px-2 py-0.5 bg-amber-900 text-amber-200 text-xs font-bold rounded">Unanswered</span>`
+                            : `<span class="px-2 py-0.5 bg-rose-900 text-rose-200 text-xs font-bold rounded">Incorrect</span>`);
+
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between">
+                            <span class="text-xs font-bold text-slate-400">Question ${idx + 1} (${q.topic})</span>
+                            ${statusBadge}
+                        </div>
+                        <p class="font-bold text-slate-100">${q.question}</p>
+                        <div class="space-y-1 text-xs">
+                            <p class="text-slate-300">
+                                <span class="font-bold">Your Answer:</span> ${userAns !== undefined ? `${String.fromCharCode(65 + userAns)}) ${q.options[userAns]}` : 'None'}
+                            </p>
+                            <p class="text-emerald-400 font-semibold">
+                                <span class="font-bold">Correct Answer:</span> ${String.fromCharCode(65 + q.answerIndex)}) ${q.options[q.answerIndex]}
+                            </p>
+                        </div>
+                        <p class="text-xs text-slate-400 pt-2 border-t border-slate-700">
+                            <i class="fa-solid fa-circle-info"></i> ${q.explanation || 'No detailed explanation standard provided.'}
+                        </p>
+                    `;
+
+                    container.appendChild(card);
+                });
+            }
+
+            toggleReviewSection() {
+                const rev = document.getElementById('results-review-list');
+                rev.classList.toggle('hidden');
+            }
+
+            saveHistoryRecord(record) {
+                this.history.unshift(record);
+                if (this.history.length > 10) this.history.pop();
+                localStorage.setItem('natsi_pdf_quiz_history', JSON.stringify(this.history));
+                this.renderHistory();
+            }
+
+            renderHistory() {
+                const container = document.getElementById('history-list');
+                document.getElementById('stat-completed-exams').innerText = `${this.history.length} Saved Attempts`;
+
+                if (this.history.length === 0) {
+                    container.innerHTML = `<p class="text-xs text-slate-400 italic">No past session records.</p>`;
+                    return;
+                }
+
+                container.innerHTML = '';
+                this.history.forEach(item => {
+                    const row = document.createElement('div');
+                    row.className = "flex items-center justify-between p-3 bg-slate-900 rounded-xl border border-slate-700 text-xs";
+                    row.innerHTML = `
+                        <div>
+                            <span class="font-bold text-slate-200 block">${item.topic}</span>
+                            <span class="text-slate-400">${item.date}</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="font-mono font-bold text-sm ${item.score >= 80 ? 'text-emerald-400' : 'text-amber-400'}">${item.score}%</span>
+                            <span class="text-slate-400 block">${item.correct}/${item.total} correct</span>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+
+            clearHistory() {
+                if (confirm('Clear score history?')) {
+                    this.history = [];
+                    localStorage.removeItem('natsi_pdf_quiz_history');
+                    this.renderHistory();
+                }
+            }
+
+            // MODAL & FILE UPLOAD LOGIC
+            openUploadModal() {
+                document.getElementById('modal-upload').classList.remove('hidden');
+            }
+
+            closeUploadModal() {
+                document.getElementById('modal-upload').classList.add('hidden');
+            }
+
+            downloadSampleJSON() {
+                const sample = [
+                    {
+                        "id": 2001,
+                        "topic": "Custom PDF Category",
+                        "question": "Sample custom 3-choice question?",
+                        "options": ["Choice A", "Choice B", "Choice C"],
+                        "answerIndex": 0,
+                        "explanation": "Sample explanation text."
+                    }
+                ];
+
+                const blob = new Blob([JSON.stringify(sample, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'sample_3choice_dataset.json';
+                a.click();
+            }
+
+            handleFileUpload() {
+                const input = document.getElementById('file-input');
+                const file = input.files[0];
+
+                if (!file) {
+                    alert('Please select a JSON or CSV file.');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        let imported = [];
+                        if (file.name.endsWith('.json')) {
+                            imported = JSON.parse(e.target.result);
+                        } else if (file.name.endsWith('.csv')) {
+                            imported = this.parseCSV(e.target.result);
+                        }
+
+                        if (Array.isArray(imported) && imported.length > 0) {
+                            this.allQuestions = [...imported, ...this.allQuestions];
+                            document.getElementById('stat-total-q').innerText = `${this.allQuestions.length} Questions Bank`;
+                            alert(`Loaded ${imported.length} new items into the pool!`);
+                            this.closeUploadModal();
+                        } else {
+                            alert('Invalid file format. Please use 3-choice JSON template.');
+                        }
+                    } catch (err) {
+                        alert('Failed to parse file: ' + err.message);
+                    }
+                };
+
+                reader.readAsText(file);
+            }
+
+            parseCSV(text) {
+                const lines = text.split('\n').filter(l => l.trim().length > 0);
+                const result = [];
+                for (let i = 1; i < lines.length; i++) {
+                    const cols = lines[i].split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+                    if (cols.length >= 6) {
+                        result.push({
+                            id: Date.now() + i,
+                            topic: cols[0] || 'Custom CSV',
+                            question: cols[1],
+                            options: [cols[2], cols[3], cols[4]], // 3 options
+                            answerIndex: parseInt(cols[5], 10) || 0,
+                            explanation: cols[6] || 'Imported via CSV.'
+                        });
+                    }
+                }
+                return result;
+            }
+        }
+
+        let app;
+        window.onload = function() {
+            app = new QuizApp();
+        };
+    </script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(() => {});
+  });
+}
+</script>
+
+</body>
+</html>
