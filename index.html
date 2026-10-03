@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMT & NatSci Reviewer (3-Choice Verified PDF Bank)</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script async src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <script>
@@ -182,7 +182,7 @@
                         </select>
                     </div>
 
-                    <button type="button" onclick="if (window.app) app.startQuiz();" class="w-full py-3.5 px-6 bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white font-bold rounded-xl shadow-lg shadow-sky-600/30 transition flex items-center justify-center gap-2 text-base">
+                    <button type="button" onclick="startReviewSession();" class="w-full py-3.5 px-6 bg-sky-600 hover:bg-sky-500 active:bg-sky-700 text-white font-bold rounded-xl shadow-lg shadow-sky-600/30 transition flex items-center justify-center gap-2 text-base">
                         <i class="fa-solid fa-play text-sm"></i>
                         <span>Start Review Session</span>
                     </button>
@@ -6364,10 +6364,28 @@ const HP_QUESTIONS = [
             }
         }
 
-        let app;
-        window.onload = function() {
-            app = new QuizApp();
-        };
+        let app = null;
+        function initializeReviewer() {
+            if (!window.app) {
+                window.app = new QuizApp();
+            }
+            app = window.app;
+            return app;
+        }
+        function startReviewSession() {
+            try {
+                const reviewer = initializeReviewer();
+                reviewer.startQuiz();
+            } catch (error) {
+                console.error('Unable to start review session:', error);
+                alert('The reviewer could not start. Please refresh the page and try again.');
+            }
+        }
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initializeReviewer, { once: true });
+        } else {
+            initializeReviewer();
+        }
     </script>
 <script>
         if ('serviceWorker' in navigator) {
